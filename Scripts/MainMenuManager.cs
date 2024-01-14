@@ -13,6 +13,12 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("LevelMenu");
     }
+
+    public void OptionsMenu()
+    {
+        SceneManager.LoadScene("OptionsMenu");
+    }
+
     public void ExitGame()
     {
 #if UNITY_EDITOR

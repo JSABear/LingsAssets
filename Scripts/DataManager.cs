@@ -41,7 +41,7 @@ public class DataManager : MonoBehaviour
     private void Start()
     {
         // Check if the current scene is LevelMenu, and if so, do not proceed with the rest of the Start function
-        if (SceneManager.GetActiveScene() != null && SceneManager.GetActiveScene().name == "LevelMenu")
+        if (SceneManager.GetActiveScene() != null && SceneManager.GetActiveScene().name == "LevelMenu" || SceneManager.GetActiveScene().name == "OptionsMenu")
         {
             return;
         }
@@ -65,7 +65,7 @@ public class DataManager : MonoBehaviour
         {
             LevelComplete();
 
-            if(RecordLings < survivedLings && RecordTime > endTime)
+            if(RecordLings < survivedLings && RecordTime > endTime || RecordTime == 0 )
             {
                 SaveToFile();
             }
@@ -147,6 +147,24 @@ public class DataManager : MonoBehaviour
 
         // Specify the file path with the LevelNumber in the filename
         string fileName = $"Level{levelNumber}Data.json";
+        string filePath = Path.Combine(Application.dataPath, fileName);
+
+        // Write the JSON data to the file
+        File.WriteAllText(filePath, json);
+
+        Debug.Log("Data saved to: " + filePath);
+    }
+
+    public void MakeDefaultSaveData(int level, int time, int current, int max)
+    {
+        SaveData saveData = new SaveData(time, current, max);
+
+        // Convert the object to JSON
+        string json = JsonUtility.ToJson(saveData);
+
+
+        // Specify the file path with the LevelNumber in the filename
+        string fileName = $"Level{level}Data.json";
         string filePath = Path.Combine(Application.dataPath, fileName);
 
         // Write the JSON data to the file

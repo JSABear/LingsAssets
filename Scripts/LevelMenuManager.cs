@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,17 +12,20 @@ public class LevelMenuManager : MonoBehaviour
     public TextMeshProUGUI[] LevelSurvivedText;
     public TextMeshProUGUI[] LevelTimeText;
 
+    public int LevelCount;
+
     private int[] survicedLings;
     private int[] maxSurvicedLings;
     private int[] recordTime;
 
     private void Start()
     {
-        survicedLings = new int[4];
-        maxSurvicedLings = new int[4];
-        recordTime = new int[4];
+        
+        survicedLings = new int[LevelCount];
+        maxSurvicedLings = new int[LevelCount];
+        recordTime = new int[LevelCount];
 
-        for (int i = 1; i <= 4; i++)
+        for (int i = 1; i <= LevelCount; i++)
         {
             dataManager.LoadFromFile(i);
             survicedLings[i - 1] = dataManager.RecordLings;
@@ -34,17 +38,20 @@ public class LevelMenuManager : MonoBehaviour
 
     private void ShowRecords()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < LevelCount; i++)
         {
-            if (LevelSurvivedText[i] != null)
+            if (maxSurvicedLings[i] != 0)
             {
-                // Update the text with the activeLings / maxLings information
-                LevelSurvivedText[i].text = $"Survived: {survicedLings[i]} / {maxSurvicedLings[i]}";
-            }
-            if (LevelTimeText[i] != null)
-            {
-                // Update the text with the timeOnLevel information
-                LevelTimeText[i].text = $"Time: {recordTime[i]}s";
+                if (LevelSurvivedText[i] != null)
+                {
+                    // Update the text with the activeLings / maxLings information
+                    LevelSurvivedText[i].text = $"Survived: {survicedLings[i]} / {maxSurvicedLings[i]}";
+                }
+                if (LevelTimeText[i] != null)
+                {
+                    // Update the text with the timeOnLevel information
+                    LevelTimeText[i].text = $"Time: {recordTime[i]}s";
+                }
             }
         }
     }
@@ -58,5 +65,15 @@ public class LevelMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
     }
+
+    public void CreateSaveData(int level)
+    {
+        int time = 60;
+        int current = 0;
+        int max = 5;
+        
+        dataManager.MakeDefaultSaveData(level, time, current, max);
+    }
+
 }
 

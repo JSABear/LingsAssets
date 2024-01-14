@@ -262,5 +262,7 @@ public class CharacterMovement : MonoBehaviour
             dataManager.AddSurvivedLings();
         }
     }
+
+    public int WalkingDirection() {  return facingDirection; }
 }
 

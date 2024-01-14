@@ -7,6 +7,15 @@ public class TargetLing : MonoBehaviour
     //private GameObject previousObject; // Store the previously clicked object
     public GameObject previousObject { get; private set; }
 
+    private int walkingDirection = -1;
+
+    public int WalkingDirection
+    {
+        get { return walkingDirection; }
+    }
+
+    private GameObject currentObject;
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) // Checking for left mouse click
@@ -16,9 +25,8 @@ public class TargetLing : MonoBehaviour
 
             if (hit.collider != null)
             {
-                GameObject currentObject = hit.collider.gameObject;
-                // You've now stored the instance of the clicked object in currentObject
-                // You can use currentObject for any further operations or storage
+                currentObject = hit.collider.gameObject; 
+                
 
                 Debug.Log("Clicked on: " + currentObject.name);
 
@@ -44,6 +52,14 @@ public class TargetLing : MonoBehaviour
 
                 // Update the previously clicked object
                 previousObject = currentObject;
+            }
+        }
+        if (currentObject != null)
+        {
+            CharacterMovement characterMovement = currentObject.GetComponent<CharacterMovement>();
+            if (characterMovement != null)
+            {
+                walkingDirection = characterMovement.WalkingDirection();
             }
         }
     }

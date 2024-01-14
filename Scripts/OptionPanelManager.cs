@@ -8,6 +8,13 @@ public class OptionPanelManager : MonoBehaviour
     public GameObject optionsPanel;
     public bool panelStatus = false;
 
+    public Tutorial tutorial = null;
+
+    private void Start()
+    {
+        GameObject startWindow = GameObject.Find("TutorialWindow");
+        tutorial = startWindow.GetComponent<Tutorial>();
+    }
 
     public void ShowOptionsMenu()
     {
@@ -32,6 +39,11 @@ public class OptionPanelManager : MonoBehaviour
     public void QuitButton()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    public void TutorialButton()
+    {
+        tutorial.StartTutorial();
     }
 
 }

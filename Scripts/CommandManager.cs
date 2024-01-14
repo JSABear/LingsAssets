@@ -8,14 +8,17 @@ public class CommandManager : MonoBehaviour
 
     private GameObject currentTarget;
 
+    public GameObject targetGameObject;
+
     void Start()
     {
-        // Assuming TargetLing script is attached to the same GameObject
         targetLing = GetComponent<TargetLing>();
     }
 
     void Update()
     {
+        ToggleGameObjectVisibility(targetGameObject);
+
         if (currentTarget != null)
         {
             if (currentTarget != targetLing.previousObject)
@@ -56,4 +59,26 @@ public class CommandManager : MonoBehaviour
             }
         }
     }
-}
+
+    public void ToggleGameObjectVisibility(GameObject objectToToggle)
+    {
+        if (objectToToggle != null)
+        {
+            // Access the walking direction from TargetLing
+            int walkingDirection = targetLing.WalkingDirection;
+
+            // Toggle the visibility of the GameObject based on the walking direction
+            if (walkingDirection == 1)
+            {
+                // Character is facing right, make the GameObject visible
+                objectToToggle.SetActive(false);
+            }
+            else
+            {
+                // Character is facing left, make the GameObject invisible
+                objectToToggle.SetActive(true);
+            }
+        }
+    }
+
+    }
